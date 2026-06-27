@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Question For You 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:    #f4a7b4;
+      --blush:   #fce4ec;
+      --petal:   #fdf0f3;
+      --plum:    #7b3f5e;
+      --sage:    #b5c9b1;
+      --cream:   #fffaf8;
+      --text:    #4a2b3a;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* floating petals background */
+    .petal-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .petal-bg span {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: 0.18;
+      animation: floatPetal linear infinite;
+    }
+
+    @keyframes floatPetal {
+      0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0.05; }
+      10%  { opacity: 0.2; }
+      90%  { opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0.05; }
+    }
+
+    /* ── pages ── */
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2.5rem 2rem;
+      z-index: 1;
+      animation: fadeIn 0.6s ease;
+    }
+    .page.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* card */
+    .card {
+      background: white;
+      border: 1.5px solid #f0d6dd;
+      border-radius: 28px;
+      padding: 3rem 2.8rem 2.8rem;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(244,167,180,0.18);
+    }
+
+    /* emoji icon */
+    .icon {
+      font-size: 3.4rem;
+      margin-bottom: 1rem;
+      display: block;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      40%       { transform: scale(1.14); }
+      60%       { transform: scale(0.97); }
+    }
+
+    /* heading */
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--plum);
+      line-height: 1.2;
+      margin-bottom: 0.7rem;
+    }
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--rose);
+    }
+
+    p.sub {
+      font-size: 0.97rem;
+      font-weight: 300;
+      color: #9a7080;
+      margin-bottom: 2.2rem;
+      line-height: 1.6;
+    }
+
+    /* buttons */
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 500;
+      padding: 0.75rem 1.7rem;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .btn:hover  { transform: translateY(-3px); }
+    .btn:active { transform: translateY(0px); }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #f4a7b4, #e97d97);
+      color: white;
+      box-shadow: 0 4px 18px rgba(233,125,151,0.35);
+    }
+    .btn-yes:hover { box-shadow: 0 7px 24px rgba(233,125,151,0.45); }
+
+    .btn-no {
+      background: var(--blush);
+      color: var(--plum);
+      border: 1.5px solid #f0c8d2;
+    }
+    .btn-no:hover { background: #f7d6de; }
+
+    /* divider */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      margin: 0 auto 1.6rem;
+      border-radius: 2px;
+    }
+
+    /* yes page */
+    .confetti-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .confetti-wrap span {
+      position: absolute;
+      font-size: 1.6rem;
+      animation: confettiFall linear infinite;
+      opacity: 0;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-8vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(108vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* no page */
+    .btn-solo {
+      margin-top: 1.6rem;
+    }
+
+    /* little hearts row */
+    .hearts-row {
+      font-size: 1.1rem;
+      letter-spacing: 0.3rem;
+      margin-bottom: 1.3rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+<!-- floating petals -->
+<div class="petal-bg" id="petalBg"></div>
+
+<!-- ── PAGE 1: The Question ── -->
+<div class="page active" id="page-question">
+  <div class="card">
+    <span class="icon">🌸</span>
+    <div class="hearts-row">♡ ♡ ♡</div>
+    <h1>So… I have a <em>tiny</em> question for you.</h1>
+    <div class="divider"></div>
+    <p class="sub">I've been wanting to ask this for a while now, and I figured the only way to do it was to go all out and make you a whole website about it 🥺</p>
+
+    <p class="sub" style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.12rem; color:var(--plum); margin-bottom:2rem;">
+      Will you be my girlfriend? 💌
+    </p>
+
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goTo('page-yes')">Of course, yesss 🥰</button>
+      <button class="btn btn-no"  onclick="goTo('page-no')">Hell nawh 😭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE 2: YES ── -->
+<div class="page" id="page-yes">
+  <div class="confetti-wrap" id="confettiWrap"></div>
+  <div class="card">
+    <span class="icon" style="animation:none; font-size:3.8rem;">🎉</span>
+    <div class="hearts-row">💗 💗 💗</div>
+    <h1>Yayyy!! <em>I'm so happy!</em></h1>
+    <div class="divider"></div>
+    <p class="sub">
+      You just made me the happiest person ever 🥹💕<br/>
+      I promise to make every day feel like this moment.
+    </p>
+    <p class="sub" style="font-family:'Playfair Display',serif; font-style:italic; color:var(--plum); font-size:1.05rem; margin-bottom:0;">
+      You + me, officially. 🌷
+    </p>
+  </div>
+</div>
+
+<!-- ── PAGE 3: NO ── -->
+<div class="page" id="page-no">
+  <div class="card">
+    <span class="icon" style="animation:none;">🥲</span>
+    <div class="hearts-row">🤍 🤍 🤍</div>
+    <h1>Okay… <em>no worries.</em></h1>
+    <div class="divider"></div>
+    <p class="sub">
+      That's totally fine 🥺<br/>
+      Let's just be friends then — no hard feelings, I promise.
+    </p>
+    <p class="sub" style="font-family:'Playfair Display',serif; font-style:italic; color:#9a7080; font-size:1.05rem; margin-bottom:0;">
+      Still glad I asked. 🌿
+    </p>
+    <button class="btn btn-no btn-solo" onclick="goTo('page-question')">Go back 💌</button>
+  </div>
+</div>
+
+<script>
+  /* ── petal background ── */
+  const petalEmojis = ['🌸','🌷','💮','🌺','✿'];
+  const petalBg = document.getElementById('petalBg');
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('span');
+    s.textContent = petalEmojis[i % petalEmojis.length];
+    s.style.left   = Math.random() * 100 + 'vw';
+    s.style.bottom = '-5vh';
+    s.style.animationDuration  = (10 + Math.random() * 14) + 's';
+    s.style.animationDelay     = (Math.random() * 14) + 's';
+    s.style.fontSize = (1 + Math.random() * 1.4) + 'rem';
+    petalBg.appendChild(s);
+  }
+
+  /* ── confetti on yes ── */
+  const confettiEmojis = ['🎉','💗','🌸','✨','🌷','💕','🥳','💖'];
+  let confettiReady = false;
+  function spawnConfetti() {
+    if (confettiReady) return;
+    confettiReady = true;
+    const wrap = document.getElementById('confettiWrap');
+    for (let i = 0; i < 30; i++) {
+      const s = document.createElement('span');
+      s.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+      s.style.left   = Math.random() * 100 + 'vw';
+      s.style.top    = '-8vh';
+      s.style.animationDuration  = (3 + Math.random() * 5) + 's';
+      s.style.animationDelay     = (Math.random() * 5) + 's';
+      s.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+      wrap.appendChild(s);
+    }
+  }
+
+  /* ── page navigation ── */
+  function goTo(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'page-yes') spawnConfetti();
+  }
+</script>
+</body>
+</html>
