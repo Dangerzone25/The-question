@@ -134,12 +134,13 @@
 
     /* buttons */
     .btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      align-items: center;
-    }
-
+    display: flex;
+     flex-direction: column;
+     gap: 0.85rem;
+     align-items: center;
+     position: relative;
+     min-height: 180px;
+}   
     .btn {
       font-family: 'DM Sans', sans-serif;
       font-size: 1rem;
@@ -209,8 +210,7 @@
     <div class="divider"></div>
     <p class="sub">
       I've been wanting to say something for a while now,
-      and I figured the best way to do it was to go all out
-      and make you a whole website 🥺💌
+      and I figured the best way to do it was to make a website 🥺💌
     </p>
     <p class="sub">
       Are you ready?
@@ -226,14 +226,14 @@
   <div class="card">
     <span class="icon">💌</span>
     <div class="hearts-row">💗 💗 💗</div>
-    <h1>So… I have a <em>tiny</em> question for you.</h1>
+    <h1>So… ermm I have a <em>tiny</em> question for you.</h1>
     <div class="divider"></div>
     <p class="sub" style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:var(--plum); margin-bottom:1.8rem;">
       Will you be my girlfriend? 🥰
     </p>
     <div class="btn-group">
       <button class="btn btn-yes" onclick="goTo('page-yes')">Of course, yesss 🥰</button>
-      <button class="btn btn-no"  onclick="goTo('page-no')">Hell nawh 😭</button>
+      <button class="btn btn-no" id="noBtn">Hell nawh 😭</button>
     </div>
   </div>
 </div>
@@ -251,7 +251,7 @@
       I promise to make every day feel like this moment.
     </p>
     <p class="sub" style="font-family:'Playfair Display',serif; font-style:italic; color:var(--plum); font-size:1.05rem; margin-bottom:0;">
-      You + me, officially. 🌷
+      You are mine nowww awdwiaowkdf. 🌷
     </p>
   </div>
 </div>
@@ -261,7 +261,7 @@
   <div class="card">
     <span class="icon" style="animation:none;">🥲</span>
     <div class="hearts-row">🤍 🤍 🤍</div>
-    <h1>Okay… <em>no worries.</em></h1>
+    <h1>WRONG ANSWERRR!
     <div class="divider"></div>
     <p class="sub">
       That's totally fine 🥺<br/>
@@ -318,6 +318,33 @@
     window.scrollTo(0, 0);
     if (id === 'page-yes') spawnConfetti();
   }
+const noBtn = document.getElementById("noBtn");
+
+let noTries = 0;
+let scale = 1.1;
+
+noBtn.addEventListener("click", () => {
+
+    if (noTries >= 10) {
+        goTo("page-no");
+        return;
+    }
+
+    noTries++;
+
+    const parent = noBtn.parentElement;
+
+    const maxX = parent.clientWidth - noBtn.offsetWidth;
+    const maxY = parent.clientHeight - noBtn.offsetHeight;
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = Math.random() * Math.max(maxX,0) + "px";
+    noBtn.style.top = Math.random() * Math.max(maxY,0) + "px";
+
+    scale -= 0.08;
+    noBtn.style.transform = `scale(${scale})`;
+});
+  
 </script>
 </body>
 </html>
